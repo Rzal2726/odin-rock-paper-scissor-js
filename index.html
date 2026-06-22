@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rock, Paper, Scissors</title>
+  </head>
+  <body></body>
+  <script>
+    function getComputerChoice() {
+      // 0 = Rock, 1 = Paper, 2 = Scissor
+      return Math.floor(Math.random() * 3);
+    }
+
+    function showComputerChoice(index) {
+      switch (index) {
+        case 0:
+          console.log("Computer uses Rock");
+          break;
+        case 1:
+          console.log("Computer uses Paper");
+          break;
+        case 2:
+          console.log("Computer uses Scissor");
+          break;
+        default:
+          console.log("Computer didn't pick anything");
+          break;
+      }
+    }
+
+    function getHumanChoice() {
+      var userInput = prompt("Pick your option (Rock, Paper, Scissor): ");
+      return userInput ? userInput.toLowerCase().trim() : "";
+    }
+
+    function showHumanChoice(option) {
+      switch (option) {
+        case "rock":
+          console.log("You use Rock");
+          break;
+        case "paper":
+          console.log("You use Paper");
+          break;
+        case "scissor":
+          console.log("You use Scissor");
+          break;
+        default:
+          console.log("You didn't pick a valid option");
+          break;
+      }
+    }
+
+    function playRound(humanChoice, computerChoice) {
+      showComputerChoice(computerChoice);
+      showHumanChoice(humanChoice);
+
+      if (!["rock", "paper", "scissor"].includes(humanChoice)) {
+        console.log("You forfeit this round due to invalid input!");
+        return "lose";
+      }
+
+      if (
+        (computerChoice === 0 && humanChoice === "rock") ||
+        (computerChoice === 1 && humanChoice === "paper") ||
+        (computerChoice === 2 && humanChoice === "scissor")
+      ) {
+        console.log("It's a draw!");
+        return "draw";
+      } else if (
+        (computerChoice === 0 && humanChoice === "paper") ||
+        (computerChoice === 1 && humanChoice === "scissor") ||
+        (computerChoice === 2 && humanChoice === "rock")
+      ) {
+        console.log("You win!");
+        return "win";
+      } else {
+        console.log("You lose!");
+        return "lose";
+      }
+    }
+
+    function playGame() {
+      var round = 1;
+      var humanScore = 0;
+      var computerScore = 0;
+
+      while (round <= 5) {
+        console.log("\n==== Round " + round + " ====");
+
+        var computerChoice = getComputerChoice();
+        var humanChoice = getHumanChoice();
+        var currentRound = playRound(humanChoice, computerChoice);
+
+        if (currentRound == "win") {
+          humanScore++;
+        } else if (currentRound == "lose") {
+          computerScore++;
+        } else {
+          console.log("No point is given");
+        }
+
+        console.log("==== Round " + round + " Summary ====");
+        console.log("Your Score: " + humanScore);
+        console.log("Computer Score: " + computerScore);
+
+        if (round === 5) {
+          console.log("\n==== FINAL RESULTS ====");
+          if (humanScore > computerScore) {
+            console.log("You win the game!!");
+          } else if (humanScore < computerScore) {
+            console.log("You lose the game!");
+          } else {
+            console.log("It's a tie game!");
+          }
+
+          var restart = prompt("Do you want to restart? (y/n): ");
+          if (restart && restart.toLowerCase() === "y") {
+            humanScore = 0;
+            computerScore = 0;
+            console.log("\n==== Game Restarted ====");
+          } else {
+            console.log("\n==== Game Ended ====");
+            break;
+          }
+        }
+        round++;
+      }
+    }
+
+    playGame();
+  </script>
+</html>
